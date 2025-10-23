@@ -4,14 +4,20 @@ import Select from 'primevue/select'
 import Button from 'primevue/button'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
-import ColumnGroup from 'primevue/columngroup' // optional
-import Row from 'primevue/row' // optional
 import { onMounted, ref, watch } from 'vue'
 
 const selectedOption = ref<string | null>(null)
 
-const { categories, products, selectedCategory, getCategories, getProductsByCategory } =
-  useHomeView()
+const {
+  categories,
+  products,
+  selectedCategory,
+  getCategories,
+  getProductsByCategory,
+  deleteCategory,
+  handleEditCategory,
+  handleCreateCategory,
+} = useHomeView()
 
 onMounted(() => {
   getCategories()
@@ -38,9 +44,29 @@ watch(selectedOption, () => {
         :highlightOnSelect="false"
         class="w-full md:w-56"
       />
-      <Button icon="pi pi-pencil" label="Edit" aria-label="Edit" size="large" />
-      <Button icon="pi pi-plus" label="Create" aria-label="Create" size="large" />
-      <Button icon="pi pi-times" label="Delete" aria-label="Delete" size="large" />
+      <template v-if="selectedOption">
+        <Button
+          icon="pi pi-pencil"
+          label="Edit"
+          aria-label="Edit"
+          size="large"
+          :onClick="handleEditCategory"
+        />
+        <Button
+          icon="pi pi-plus"
+          label="Create"
+          aria-label="Create"
+          size="large"
+          :onClick="handleCreateCategory"
+        />
+        <Button
+          icon="pi pi-times"
+          label="Delete"
+          aria-label="Delete"
+          size="large"
+          :onClick="() => deleteCategory(selectedOption ?? '')"
+        />
+      </template>
     </div>
     <div v-if="products.length > 0">
       <DataTable :value="products" showGridlines tableStyle="min-width: 60rem">
