@@ -1,0 +1,76 @@
+{
+  "categories": [
+    {
+      "id": "tv",
+      "name": "Televize",
+      "icon": "tv",
+      "color": "blue",
+      "schema": [
+        {
+          "key": "screenSize",
+          "label": "Úhlopříčka",
+          "type": "number",
+          "required": true,
+          "unit": "palce"
+        },
+        {
+          "key": "resolution",
+          "label": "Rozlišení",
+          "type": "select",
+          "required": true,
+          "options": ["HD", "Full HD", "4K", "8K"]
+        },
+        { "key": "smartTV", "label": "Smart TV", "type": "boolean", "required": false },
+        { "key": "yearManufactured", "label": "Rok výroby", "type": "number", "required": false }
+      ]
+    },
+    {
+      "id": "books",
+      "name": "Knihy",
+      "icon": "book",
+      "color": "brown",
+      "schema": [
+        { "key": "author", "label": "Autor", "type": "text", "required": true },
+        { "key": "pages", "label": "Počet stran", "type": "number", "required": true },
+        { "key": "isbn", "label": "ISBN", "type": "text", "required": false },
+        { "key": "publishDate", "label": "Datum vydání", "type": "date", "required": false },
+        {
+          "key": "genre",
+          "label": "Žánr",
+          "type": "select",
+          "required": true,
+          "options": ["Sci-fi", "Fantasy", "Detektivka", "Romantika", "Historický"]
+        }
+      ]
+    }
+  ],
+  "products": [
+    {
+      "id": "1",
+      "name": "Samsung QLED 55\"",
+      "categoryId": "tv",
+      "price": 24999,
+      "stock": 5,
+      "attributes": {
+        "screenSize": 55,
+        "resolution": "4K",
+        "smartTV": true,
+        "yearManufactured": 2024
+      }
+    },
+    {
+      "id": "2",
+      "name": "Hobit",
+      "categoryId": "books",
+      "price": 299,
+      "stock": 15,
+      "attributes": {
+        "author": "J.R.R. Tolkien",
+        "pages": 310,
+        "isbn": "978-80-257-1335-6",
+        "publishDate": "2012-09-21",
+        "genre": "Fantasy"
+      }
+    }
+  ]
+}
