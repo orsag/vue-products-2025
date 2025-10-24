@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import type { Category } from '@/types'
 
 export const useMainStore = defineStore('main', () => {
-  const operation = ref<'edit' | 'create' | ''>('')
+  const operation = ref<'update' | 'create' | ''>('')
   const categories = ref<Category[]>([])
   const selectedCategory = ref<Category | null>(null)
 

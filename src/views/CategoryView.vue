@@ -1,62 +1,65 @@
 <script setup lang="ts">
 import AddAttributeForm from '@/components/AddAttributeForm.vue'
 import { useCategoryView } from '@/composables/useCategoryView'
-import { Form, type FormSubmitEvent } from '@primevue/forms'
-import { InputText, InputNumber, DatePicker, Select, ToggleSwitch, Message, Button } from 'primevue'
+import { InputText, Button } from 'primevue'
+import { computed, ref } from 'vue'
+
+export interface FormData {
+  name: string
+  icon: string
+  color: string
+}
 
 const {
-  operation,
-  localCategory,
   selectedCategory,
+  operation,
   updateCategory,
   createCategory,
   handleDeleteAttribute,
+  createdAttribute,
 } = useCategoryView()
 
-const handleOpertion = operation.value === 'edit' ? updateCategory : createCategory
+const header = computed(() => (operation.value === 'update' ? 'Update Category' : 'New Category'))
 
-const onFormSubmit = (event: FormSubmitEvent<Record<string, any>>) => {
-  // const newCategory: Category = {}
-  console.log(event)
+const formData = ref<FormData>({
+  name: selectedCategory.value?.name ?? '',
+  icon: selectedCategory.value?.icon ?? '',
+  color: selectedCategory.value?.color ?? '',
+})
+
+const onFormSubmit = (event: SubmitEvent) => {
+  if (operation.value === 'update') {
+    updateCategory(formData.value)
+  } else {
+    createCategory(formData.value)
+  }
   // createdAt
-  // handleOpertion(newCategory)
 }
 </script>
 
 <template>
   <div class="centering">
-    <Form
-      v-if="localCategory"
-      v-slot="$form"
-      :initialValues="localCategory"
-      :validateOnValueUpdate="false"
-      :validateOnBlur="true"
-      @submit="onFormSubmit"
-      class="form w-full sm:w-56"
-    >
-      <div class="flex flex-col gap-1">
-        <label>Name:</label>
-        <InputText name="name" type="text" placeholder="Name" required fluid />
-        <Message v-if="$form.name?.invalid" severity="error" size="small" variant="simple">{{
-          $form.name.error.message
-        }}</Message>
+    <h2>{{ header }}</h2>
+    <form @submit.prevent="onFormSubmit" class="p-fluid form-container">
+      <!-- rendering required -->
+      <div class="field">
+        <label for="name">Name</label>
+        <InputText id="name" v-model="formData.name" required class="w-full" />
       </div>
-      <div class="flex flex-col gap-1">
-        <label>Icon:</label>
-        <InputText name="icon" type="text" placeholder="Icon" required fluid />
-        <Message v-if="$form.icon?.invalid" severity="error" size="small" variant="simple">{{
-          $form.icon.error.message
-        }}</Message>
+      <div class="field">
+        <label for="icon">Icon</label>
+        <InputText id="icon" v-model="formData.icon" required class="w-full" />
       </div>
-      <div class="flex flex-col gap-1">
-        <label>Color:</label>
-        <InputText name="color" type="text" placeholder="Color" required fluid />
-        <Message v-if="$form.color?.invalid" severity="error" size="small" variant="simple">{{
-          $form.color.error.message
-        }}</Message>
+      <div class="field">
+        <label for="color">Color</label>
+        <InputText id="color" v-model="formData.color" required class="w-full" />
       </div>
-      <template v-if="localCategory.schema.length > 0 && operation === 'edit'">
-        <div v-for="attrib in localCategory.schema" :key="attrib.key" class="editAttrib">
+
+      <!-- rendering attributes -->
+      <template
+        v-if="selectedCategory && selectedCategory.schema.length > 0 && operation === 'update'"
+      >
+        <div v-for="attrib in selectedCategory.schema" :key="attrib.key" class="field attribute">
           <label>{{ attrib.label }}</label>
           <Button
             severity="secondary"
@@ -65,38 +68,12 @@ const onFormSubmit = (event: FormSubmitEvent<Record<string, any>>) => {
           />
         </div>
       </template>
-      <template v-if="operation === 'create'">
-        <AddAttributeForm />
-        <!-- <div :key="attrib.key" class="flex flex-col gap-1">
-          <label>{{ attrib.label }}:</label>
-          <InputNumber v-if="attrib.type === 'number'" :required="attrib.required" fluid />
-          <InputText
-            v-if="attrib.type === 'text'"
-            :name="`schema.${attrib.key}`"
-            type="text"
-            :placeholder="attrib.label"
-            :required="attrib.required"
-            fluid
-          />
-          <DatePicker v-if="attrib.type === 'date'" :name="`schema.${attrib.key}`" fluid />
-          <Select
-            v-if="attrib.type === 'select'"
-            :name="`schema.${attrib.key}`"
-            :options="attrib.options"
-            :required="attrib.required"
-            placeholder="Select"
-            fluid
-          />
-          <ToggleSwitch
-            v-if="attrib.type === 'boolean'"
-            :name="`schema.${attrib.key}`"
-            :required="attrib.required"
-            class="switch"
-          />
-        </div> -->
-      </template>
-      <Button type="submit" severity="secondary" label="Submit" />
-    </Form>
+
+      <!-- add new form -->
+      <AddAttributeForm @createdAttribute="createdAttribute" />
+
+      <Button type="submit" severity="secondary" label="Submit category" />
+    </form>
   </div>
 </template>
 
@@ -105,17 +82,13 @@ const onFormSubmit = (event: FormSubmitEvent<Record<string, any>>) => {
   .w-full {
     width: 100%;
   }
-  .form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    align-items: center;
-    justify-content: center;
-  }
   .centering {
+    padding: 2em 0;
+    min-width: 500px;
     min-height: 100vh;
     display: flex;
     align-items: center;
+    flex-direction: column;
   }
   .switch {
     position: relative;
@@ -123,11 +96,28 @@ const onFormSubmit = (event: FormSubmitEvent<Record<string, any>>) => {
     left: 12px;
     margin-right: 2em;
   }
-  .editAttrib {
+  .attribute {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 1rem;
+  }
+  .form-container {
+    width: 100%;
+    max-width: 400px;
+    margin-top: 1.5rem;
+  }
+
+  .p-fluid .field {
+    margin-bottom: 1.5rem;
+  }
+
+  .p-fluid .field label {
+    display: block;
+    width: 100%;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-color);
   }
 }
 </style>

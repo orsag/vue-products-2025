@@ -42,7 +42,7 @@ watch(selectedOption, () => {
         placeholder="Category"
         checkmark
         :highlightOnSelect="false"
-        class="w-full md:w-56"
+        class="select"
       />
       <template v-if="selectedOption">
         <Button
@@ -53,13 +53,6 @@ watch(selectedOption, () => {
           :onClick="handleEditCategory"
         />
         <Button
-          icon="pi pi-plus"
-          label="Create"
-          aria-label="Create"
-          size="large"
-          :onClick="handleCreateCategory"
-        />
-        <Button
           icon="pi pi-times"
           label="Delete"
           aria-label="Delete"
@@ -67,6 +60,13 @@ watch(selectedOption, () => {
           :onClick="() => deleteCategory(selectedOption ?? '')"
         />
       </template>
+      <Button
+        icon="pi pi-plus"
+        label="Create"
+        aria-label="Create"
+        size="large"
+        :onClick="handleCreateCategory"
+      />
     </div>
     <div v-if="products.length > 0">
       <DataTable :value="products" showGridlines tableStyle="min-width: 60rem">
@@ -92,5 +92,10 @@ watch(selectedOption, () => {
   align-items: center;
   gap: 2em;
   margin-bottom: 1em;
+  width: 100%;
+  min-width: 500px;
+}
+.select {
+  width: 200px;
 }
 </style>
