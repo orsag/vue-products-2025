@@ -65,13 +65,17 @@ export function useHomeView() {
   }
 
   const handleEditCategory = () => {
-    operation.value = 'edit'
+    operation.value = 'update'
     router.push({ name: 'category' })
   }
 
   const handleCreateCategory = () => {
     operation.value = 'create'
     router.push({ name: 'category' })
+  }
+
+  const handleAddProduct = () => {
+    router.push({ name: 'product' })
   }
 
   return {
@@ -83,5 +87,6 @@ export function useHomeView() {
     deleteCategory,
     handleCreateCategory,
     handleEditCategory,
+    handleAddProduct,
   }
 }

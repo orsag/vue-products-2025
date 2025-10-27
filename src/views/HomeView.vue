@@ -1,12 +1,11 @@
 <script setup lang="ts">
+import Menu from '../components/Menu.vue'
 import { useHomeView } from '@/composables/useHomeView'
-import Select from 'primevue/select'
-import Button from 'primevue/button'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref } from 'vue'
 
-const selectedOption = ref<string | null>(null)
+const selectedOption = ref<string | undefined>()
 
 const {
   categories,
@@ -17,85 +16,60 @@ const {
   deleteCategory,
   handleEditCategory,
   handleCreateCategory,
+  handleAddProduct,
 } = useHomeView()
 
 onMounted(() => {
   getCategories()
 })
 
-watch(selectedOption, () => {
-  if (selectedOption.value) {
-    getProductsByCategory(selectedOption.value)
+const updateSelectedOption = (model: string) => {
+  if (model) {
+    console.log(model)
+    getProductsByCategory(model)
   }
-})
+}
 </script>
 
 <template>
   <main>
-    <div class="menu">
-      Category:
-      <Select
-        v-model="selectedOption"
-        :options="categories"
-        optionLabel="name"
-        optionValue="id"
-        placeholder="Category"
-        checkmark
-        :highlightOnSelect="false"
-        class="select"
-      />
-      <template v-if="selectedOption">
-        <Button
-          icon="pi pi-pencil"
-          label="Edit"
-          aria-label="Edit"
-          size="large"
-          :onClick="handleEditCategory"
-        />
-        <Button
-          icon="pi pi-times"
-          label="Delete"
-          aria-label="Delete"
-          size="large"
-          :onClick="() => deleteCategory(selectedOption ?? '')"
-        />
-      </template>
-      <Button
-        icon="pi pi-plus"
-        label="Create"
-        aria-label="Create"
-        size="large"
-        :onClick="handleCreateCategory"
-      />
-    </div>
+    <Menu
+      v-model="selectedOption"
+      :categories="categories"
+      :deleteCategory="deleteCategory"
+      :handleEditCategory="handleEditCategory"
+      :handleCreateCategory="handleCreateCategory"
+      :handleAddProduct="handleAddProduct"
+      @update:modelValue="($event) => updateSelectedOption($event)"
+    />
     <div v-if="products.length > 0">
       <DataTable :value="products" showGridlines tableStyle="min-width: 60rem">
-        <Column field="name" header="Name"></Column>
-        <Column field="price" header="Price"></Column>
-        <Column field="stock" header="Stock"></Column>
+        <Column field="name" header="Name" sortable></Column>
+        <Column field="price" header="Price" sortable></Column>
+        <Column field="stock" header="Stock" sortable></Column>
         <template v-if="selectedCategory && selectedCategory.schema.length > 0">
           <Column
             v-for="attrib in selectedCategory.schema"
             :field="`attributes.${attrib.key}`"
             :header="attrib.label"
             :key="attrib.key"
+            sortable
           ></Column>
         </template>
       </DataTable>
+    </div>
+    <div v-else-if="selectedOption === null">
+      <h3>No category selected</h3>
+    </div>
+    <div v-else>
+      <h3>No products in this category</h3>
     </div>
   </main>
 </template>
 
 <style lang="css" scoped>
-.menu {
+main {
   display: flex;
-  align-items: center;
-  gap: 2em;
-  margin-bottom: 1em;
-  width: 100%;
-  min-width: 500px;
-}
-.select {
-  width: 200px;
+  flex-direction: column;
 }
 </style>

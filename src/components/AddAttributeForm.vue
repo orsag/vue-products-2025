@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, defineEmits } from 'vue'
+import { ref, defineEmits, watch } from 'vue'
 import { InputText, Select, ToggleSwitch, Button } from 'primevue'
 import type { AttributeDefinition } from '@/types'
 type CustomType = 'text' | 'number' | 'select' | 'date' | 'boolean'
@@ -17,6 +17,7 @@ const EMPTY = {
 }
 
 const newOption = ref('')
+const added = ref(false)
 const options = ref([
   { label: 'Text', value: 'text' },
   { label: 'Number', value: 'number' },
@@ -35,7 +36,16 @@ const addedOption = () => {
 const handleSubmit = () => {
   emit('createdAttribute', { ...formData.value })
   formData.value = { ...EMPTY, options: [] }
+  added.value = true
 }
+
+watch(added, () => {
+  if (added.value) {
+    setTimeout(() => {
+      added.value = false
+    }, 5000)
+  }
+})
 </script>
 
 <template>
@@ -73,7 +83,10 @@ const handleSubmit = () => {
         <InputText name="key" type="text" placeholder="New Option" v-model="newOption" fluid />
         <Button severity="secondary" label="Add option" :onClick="() => addedOption()" />
       </div>
-      <Button type="submit" severity="secondary" label="Save new attribute" />
+      <div>
+        <Button type="submit" severity="secondary" label="Save new attribute" />
+        <span v-if="added">Added</span>
+      </div>
     </form>
   </div>
 </template>

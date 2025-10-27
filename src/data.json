@@ -20,8 +20,18 @@
           "required": true,
           "options": ["HD", "Full HD", "4K", "8K"]
         },
-        { "key": "smartTV", "label": "Smart TV", "type": "boolean", "required": false },
-        { "key": "yearManufactured", "label": "Rok výroby", "type": "number", "required": false }
+        {
+          "key": "smartTV",
+          "label": "Smart TV",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "key": "yearManufactured",
+          "label": "Rok výroby",
+          "type": "number",
+          "required": false
+        }
       ]
     },
     {
@@ -30,10 +40,30 @@
       "icon": "book",
       "color": "brown",
       "schema": [
-        { "key": "author", "label": "Autor", "type": "text", "required": true },
-        { "key": "pages", "label": "Počet stran", "type": "number", "required": true },
-        { "key": "isbn", "label": "ISBN", "type": "text", "required": false },
-        { "key": "publishDate", "label": "Datum vydání", "type": "date", "required": false },
+        {
+          "key": "author",
+          "label": "Autor",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "pages",
+          "label": "Počet stran",
+          "type": "number",
+          "required": true
+        },
+        {
+          "key": "isbn",
+          "label": "ISBN",
+          "type": "text",
+          "required": false
+        },
+        {
+          "key": "publishDate",
+          "label": "Datum vydání",
+          "type": "date",
+          "required": false
+        },
         {
           "key": "genre",
           "label": "Žánr",

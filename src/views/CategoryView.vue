@@ -5,6 +5,7 @@ import { InputText, Button } from 'primevue'
 import { computed, ref } from 'vue'
 
 export interface FormData {
+  id: string
   name: string
   icon: string
   color: string
@@ -20,27 +21,34 @@ const {
 } = useCategoryView()
 
 const header = computed(() => (operation.value === 'update' ? 'Update Category' : 'New Category'))
+const UPDATE = computed(() => operation.value === 'update')
+const CREATE = computed(() => operation.value === 'create')
 
 const formData = ref<FormData>({
+  id: selectedCategory.value?.id ?? '',
   name: selectedCategory.value?.name ?? '',
   icon: selectedCategory.value?.icon ?? '',
   color: selectedCategory.value?.color ?? '',
 })
 
 const onFormSubmit = (event: SubmitEvent) => {
-  if (operation.value === 'update') {
+  if (UPDATE.value) {
     updateCategory(formData.value)
   } else {
     createCategory(formData.value)
   }
-  // createdAt
 }
 </script>
 
 <template>
   <div class="centering">
     <h2>{{ header }}</h2>
-    <form @submit.prevent="onFormSubmit" class="p-fluid form-container">
+    <form @submit.prevent="onFormSubmit" class="form-container">
+      <div v-if="CREATE" class="field">
+        <label for="id">Id:</label>
+        <InputText id="id" v-model="formData.id" required class="w-full" />
+      </div>
+
       <!-- rendering required -->
       <div class="field">
         <label for="name">Name</label>
@@ -56,9 +64,7 @@ const onFormSubmit = (event: SubmitEvent) => {
       </div>
 
       <!-- rendering attributes -->
-      <template
-        v-if="selectedCategory && selectedCategory.schema.length > 0 && operation === 'update'"
-      >
+      <template v-if="selectedCategory && selectedCategory.schema.length > 0 && UPDATE">
         <div v-for="attrib in selectedCategory.schema" :key="attrib.key" class="field attribute">
           <label>{{ attrib.label }}</label>
           <Button
@@ -77,47 +83,44 @@ const onFormSubmit = (event: SubmitEvent) => {
   </div>
 </template>
 
-<style>
-@media (min-width: 1024px) {
-  .w-full {
-    width: 100%;
-  }
-  .centering {
-    padding: 2em 0;
-    min-width: 500px;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-  }
-  .switch {
-    position: relative;
-    top: 8px;
-    left: 12px;
-    margin-right: 2em;
-  }
-  .attribute {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 1rem;
-  }
-  .form-container {
-    width: 100%;
-    max-width: 400px;
-    margin-top: 1.5rem;
-  }
+<style scoped>
+.w-full {
+  width: 100%;
+}
+.centering {
+  min-width: 500px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.switch {
+  position: relative;
+  top: 8px;
+  left: 12px;
+  margin-right: 2em;
+}
+.attribute {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+}
+.form-container {
+  width: 100%;
+  max-width: 400px;
+  margin-top: 1.5rem;
+}
 
-  .p-fluid .field {
-    margin-bottom: 1.5rem;
-  }
+.field {
+  margin-bottom: 1.5rem;
+}
 
-  .p-fluid .field label {
-    display: block;
-    width: 100%;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: var(--text-color);
-  }
+.field label {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--text-color);
 }
 </style>
