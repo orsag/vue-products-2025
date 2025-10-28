@@ -2,17 +2,13 @@ import { BaseError } from '@/BaseError'
 import { useMainStore } from '@/stores/main'
 import type { Category, Product } from '@/types'
 import { storeToRefs } from 'pinia'
-import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 export function useHomeView() {
-  const products = ref<Product[]>([])
-
   const mainStore = useMainStore()
   const router = useRouter()
-
   const { setSelectedCategory } = mainStore
-  const { operation, categories, selectedCategory } = storeToRefs(mainStore)
+  const { operation, categories, products, selectedCategory } = storeToRefs(mainStore)
 
   const getCategories = async () => {
     try {

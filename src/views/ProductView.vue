@@ -24,7 +24,7 @@ const formData = ref<FormData>({
   attributes: attributes ?? {},
 })
 
-const onFormSubmit = (event: SubmitEvent) => {
+const onFormSubmit = () => {
   createProduct(formData.value)
 }
 </script>
@@ -78,7 +78,7 @@ const onFormSubmit = (event: SubmitEvent) => {
             :name="attrib.key"
             :options="attrib.options"
             placeholder="Options"
-          />
+          ></Select>
           <DatePicker
             v-if="attrib.type === 'date'"
             v-model="formData.attributes[attrib.key]"
@@ -89,8 +89,8 @@ const onFormSubmit = (event: SubmitEvent) => {
       </template>
 
       <div class="buttons">
-        <Button type="submit" severity="secondary" label="Submit product" />
-        <Button severity="warn" label="Cancel" :onClick="cancelCreation" />
+        <Button type="submit" severity="secondary" label="Submit product"></Button>
+        <Button severity="warn" label="Cancel" :onClick="cancelCreation"></Button>
       </div>
     </form>
   </div>

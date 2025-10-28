@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import Menu from '../components/Menu.vue'
 import { useHomeView } from '@/composables/useHomeView'
-import DataTable from 'primevue/datatable'
-import Column from 'primevue/column'
 import { onMounted, ref } from 'vue'
+import MyDataTable from '@/components/MyDataTable.vue'
 
 const {
   categories,
@@ -46,26 +45,7 @@ const updateSelectedOption = (model: string) => {
       @update:modelValue="($event) => updateSelectedOption($event)"
     />
     <div v-if="products.length > 0">
-      <DataTable
-        :value="products"
-        showGridlines
-        sortMode="multiple"
-        removableSort
-        tableStyle="min-width: 60rem"
-      >
-        <Column field="name" header="Name" sortable></Column>
-        <Column field="price" header="Price" sortable></Column>
-        <Column field="stock" header="Stock" sortable></Column>
-        <template v-if="selectedCategory && selectedCategory.schema.length > 0">
-          <Column
-            v-for="attrib in selectedCategory.schema"
-            :field="`attributes.${attrib.key}`"
-            :header="attrib.label"
-            :key="attrib.key"
-            sortable
-          ></Column>
-        </template>
-      </DataTable>
+      <MyDataTable />
     </div>
     <div v-else-if="selectedOption === null">
       <h3>No category selected</h3>

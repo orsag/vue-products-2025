@@ -2,6 +2,7 @@
 import { ref, defineEmits } from 'vue'
 import { InputText, Select, ToggleSwitch, Button } from 'primevue'
 import type { AttributeDefinition } from '@/types'
+
 type CustomType = 'text' | 'number' | 'select' | 'date' | 'boolean'
 const isDarkMode = ref(window.matchMedia('(prefers-color-scheme: dark)').matches)
 const isOpened = ref(false)

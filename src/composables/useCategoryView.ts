@@ -94,6 +94,11 @@ export function useCategoryView() {
     console.log(localCategory.value)
   }
 
+  const cancelEditing = () => {
+    localCategory.value = { ...EMPTY_CAT, schema: [] }
+    router.push({ name: 'main' })
+  }
+
   return {
     selectedCategory,
     localCategory,
@@ -102,5 +107,6 @@ export function useCategoryView() {
     createCategory,
     handleDeleteAttribute,
     createdAttribute,
+    cancelEditing,
   }
 }

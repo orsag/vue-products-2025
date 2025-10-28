@@ -4,6 +4,7 @@ import { useCategoryView } from '@/composables/useCategoryView'
 import type { FormData } from '@/composables/useCategoryView'
 import { InputText, Button } from 'primevue'
 import { computed, ref } from 'vue'
+const EMPTY = ''
 
 const {
   selectedCategory,
@@ -12,6 +13,7 @@ const {
   createCategory,
   handleDeleteAttribute,
   createdAttribute,
+  cancelEditing,
 } = useCategoryView()
 
 const header = computed(() => (operation.value === 'update' ? 'Update Category' : 'New Category'))
@@ -19,13 +21,13 @@ const UPDATE = computed(() => operation.value === 'update')
 const CREATE = computed(() => operation.value === 'create')
 
 const formData = ref<FormData>({
-  id: selectedCategory.value?.id ?? '',
-  name: selectedCategory.value?.name ?? '',
-  icon: selectedCategory.value?.icon ?? '',
-  color: selectedCategory.value?.color ?? '',
+  id: UPDATE.value ? (selectedCategory.value?.id ?? EMPTY) : EMPTY,
+  name: UPDATE.value ? (selectedCategory.value?.name ?? EMPTY) : EMPTY,
+  icon: UPDATE.value ? (selectedCategory.value?.icon ?? EMPTY) : EMPTY,
+  color: UPDATE.value ? (selectedCategory.value?.color ?? EMPTY) : EMPTY,
 })
 
-const onFormSubmit = (event: SubmitEvent) => {
+const onFormSubmit = () => {
   if (UPDATE.value) {
     updateCategory(formData.value)
   } else {
@@ -64,14 +66,17 @@ const onFormSubmit = (event: SubmitEvent) => {
           <Button
             severity="secondary"
             label="Delete"
-            :onClick="() => handleDeleteAttribute(attrib.key)"
-          />
+            @click="() => handleDeleteAttribute(attrib.key)"
+          ></Button>
         </div>
       </template>
 
       <AddAttributeForm @createdAttribute="createdAttribute" />
 
-      <Button type="submit" severity="secondary" label="Submit category" />
+      <div class="buttons">
+        <Button type="submit" severity="secondary" label="Submit category"></Button>
+        <Button severity="warn" label="Cancel" @click="cancelEditing"></Button>
+      </div>
     </form>
   </div>
 </template>
@@ -115,5 +120,10 @@ const onFormSubmit = (event: SubmitEvent) => {
   margin-bottom: 0.5rem;
   font-weight: 600;
   color: var(--text-color);
+}
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>
