@@ -1,15 +1,9 @@
 <script setup lang="ts">
 import AddAttributeForm from '@/components/AddAttributeForm.vue'
 import { useCategoryView } from '@/composables/useCategoryView'
+import type { FormData } from '@/composables/useCategoryView'
 import { InputText, Button } from 'primevue'
 import { computed, ref } from 'vue'
-
-export interface FormData {
-  id: string
-  name: string
-  icon: string
-  color: string
-}
 
 const {
   selectedCategory,
@@ -75,7 +69,6 @@ const onFormSubmit = (event: SubmitEvent) => {
         </div>
       </template>
 
-      <!-- add new form -->
       <AddAttributeForm @createdAttribute="createdAttribute" />
 
       <Button type="submit" severity="secondary" label="Submit category" />

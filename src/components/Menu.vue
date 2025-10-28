@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import Select from 'primevue/select'
 import Button from 'primevue/button'
+import Dialog from 'primevue/dialog'
 import type { Category } from '@/types'
+import { ref } from 'vue'
 
 const model = defineModel<string>({ default: null })
+const visible = ref(false)
 
 const props = defineProps<{
   categories: Category[]
@@ -13,8 +16,13 @@ const props = defineProps<{
   handleAddProduct: (payload: PointerEvent) => void
 }>()
 
+const openDialog = () => {
+  visible.value = true
+}
+
 const _deleteCategory = () => {
   props.deleteCategory(model.value ?? '')
+  visible.value = false
 }
 </script>
 
@@ -30,38 +38,47 @@ const _deleteCategory = () => {
       checkmark
       :highlightOnSelect="false"
       class="select"
-    />
+    ></Select>
     <Button
       icon="pi pi-plus"
       label="Create"
       aria-label="Create"
       size="large"
-      :onClick="handleCreateCategory"
-    />
+      @click="handleCreateCategory"
+    ></Button>
     <template v-if="model">
       <Button
         icon="pi pi-pencil"
         label="Edit"
         aria-label="Edit"
         size="large"
-        :onClick="handleEditCategory"
-      />
+        @click="handleEditCategory"
+      ></Button>
       <Button
         icon="pi pi-times"
         label="Delete"
         aria-label="Delete"
         size="large"
-        :onClick="_deleteCategory"
-      />
+        @click="openDialog"
+      ></Button>
       <Button
         icon="pi pi-star"
         label="Add Product"
         aria-label="Add Product"
         size="large"
         severity="info"
-        :onClick="handleAddProduct"
-      />
+        @click="handleAddProduct"
+      ></Button>
     </template>
+    <Dialog v-model:visible="visible" modal header="Delete" :style="{ width: '25rem' }">
+      <span class="text-surface-500 dark:text-surface-400 block mb-8"
+        >Are you sure you want to delete this category?
+      </span>
+      <div class="flex justify-end gap-2">
+        <Button type="button" label="Cancel" severity="secondary" @click="visible = false"></Button>
+        <Button type="button" label="Save" @click="_deleteCategory"></Button>
+      </div>
+    </Dialog>
   </div>
 </template>
 
@@ -76,5 +93,14 @@ const _deleteCategory = () => {
 }
 .select {
   width: 200px;
+}
+.mb-8 {
+  display: block;
+  margin-bottom: 2em;
+}
+.gap-2 {
+  display: flex;
+  justify-content: flex-end;
+  gap: 2em;
 }
 </style>

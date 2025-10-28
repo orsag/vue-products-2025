@@ -1,10 +1,16 @@
 import { BaseError } from '@/BaseError'
 import { useMainStore } from '@/stores/main'
 import type { AttributeDefinition, Category } from '@/types'
-import type { FormData } from '@/views/CategoryView.vue'
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+
+export interface FormData {
+  id: string
+  name: string
+  icon: string
+  color: string
+}
 
 const EMPTY_CAT = {
   id: '',
@@ -30,7 +36,10 @@ export function useCategoryView() {
     const url = `/api/categories/${localCategory.value.id}`
 
     try {
-      const response = await fetch(url, { method: 'PATCH' })
+      const response = await fetch(url, {
+        method: 'PATCH',
+        body: JSON.stringify(localCategory.value),
+      })
       if (!response.ok) {
         throw new BaseError('HTTP error!', { cause: String(response.status) })
       }
@@ -43,7 +52,7 @@ export function useCategoryView() {
         }
       })
       categories.value = updatedCategories
-      router.push({ name: 'products' })
+      router.push({ name: 'main' })
     } catch (err) {
       const error = err as BaseError
       console.log(error.message)
@@ -66,7 +75,7 @@ export function useCategoryView() {
       }
       const newCategory = await response.json()
       categories.value = [categories.value, { ...newCategory }]
-      router.push({ name: 'products' })
+      router.push({ name: 'main' })
     } catch (err) {
       const error = err as BaseError
       console.log(error.message)
@@ -75,7 +84,7 @@ export function useCategoryView() {
 
   const handleDeleteAttribute = (id: string) => {
     localCategory.value.schema = localCategory.value.schema.filter(
-      (ad: AttributeDefinition) => ad.key !== id,
+      (item: AttributeDefinition) => item.key !== id,
     )
     console.log(localCategory.value.schema)
   }

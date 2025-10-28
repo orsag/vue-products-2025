@@ -18,7 +18,12 @@
           "label": "Rozlišení",
           "type": "select",
           "required": true,
-          "options": ["HD", "Full HD", "4K", "8K"]
+          "options": [
+            "HD",
+            "Full HD",
+            "4K",
+            "8K"
+          ]
         },
         {
           "key": "smartTV",
@@ -28,9 +33,11 @@
         },
         {
           "key": "yearManufactured",
-          "label": "Rok výroby",
-          "type": "number",
-          "required": false
+          "label": "Rok vyroby",
+          "type": "text",
+          "required": false,
+          "options": [],
+          "defaultValue": ""
         }
       ]
     },
@@ -69,7 +76,13 @@
           "label": "Žánr",
           "type": "select",
           "required": true,
-          "options": ["Sci-fi", "Fantasy", "Detektivka", "Romantika", "Historický"]
+          "options": [
+            "Sci-fi",
+            "Fantasy",
+            "Detektivka",
+            "Romantika",
+            "Historický"
+          ]
         }
       ]
     }
@@ -100,6 +113,66 @@
         "isbn": "978-80-257-1335-6",
         "publishDate": "2012-09-21",
         "genre": "Fantasy"
+      }
+    },
+    {
+      "id": "090f2149-4c68-4027-9434-91c161474b66",
+      "categoryId": "tv",
+      "name": "55\" Philips 55OLED820",
+      "price": 1349,
+      "stock": 10,
+      "createdAt": "Tue Oct 28 2025",
+      "updatedAt": "Tue Oct 28 2025",
+      "attributes": {
+        "screenSize": 55,
+        "resolution": "4K",
+        "smartTV": true,
+        "yearManufactured": 2025
+      }
+    },
+    {
+      "id": "7c706b07-5877-4aee-af1d-6c1389874888",
+      "categoryId": "tv",
+      "name": "86\" LG 86QNED86A6A",
+      "price": 2099,
+      "stock": 10,
+      "createdAt": "Tue Oct 28 2025",
+      "updatedAt": "Tue Oct 28 2025",
+      "attributes": {
+        "screenSize": 86,
+        "resolution": "4K",
+        "smartTV": true,
+        "yearManufactured": 2025
+      }
+    },
+    {
+      "id": "4822edca-069e-4a65-9cbf-ac6189514860",
+      "categoryId": "tv",
+      "name": "75\" TCL 75C9K",
+      "price": 1899,
+      "stock": 10,
+      "createdAt": "Tue Oct 28 2025",
+      "updatedAt": "Tue Oct 28 2025",
+      "attributes": {
+        "screenSize": 75,
+        "resolution": "4K",
+        "smartTV": true,
+        "yearManufactured": 2024
+      }
+    },
+    {
+      "id": "923506b6-6aaf-4f9c-ab71-a6bf55cc97d7",
+      "categoryId": "tv",
+      "name": "85\" TCL 85C9K",
+      "price": 2429,
+      "stock": 15,
+      "createdAt": "Tue Oct 28 2025",
+      "updatedAt": "Tue Oct 28 2025",
+      "attributes": {
+        "screenSize": 85,
+        "resolution": "4K",
+        "smartTV": true,
+        "yearManufactured": 2025
       }
     }
   ]

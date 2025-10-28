@@ -41,4 +41,6 @@ interface FilterConfig {
   value: any
 }
 
-export type { AttributeDefinition, Category, Product, ColumnConfig, FilterConfig }
+declare type Nullable<T = void> = T | null | undefined
+
+export type { AttributeDefinition, Category, Product, ColumnConfig, FilterConfig, Nullable }

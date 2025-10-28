@@ -5,8 +5,6 @@ import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import { onMounted, ref } from 'vue'
 
-const selectedOption = ref<string | undefined>()
-
 const {
   categories,
   products,
@@ -19,13 +17,18 @@ const {
   handleAddProduct,
 } = useHomeView()
 
+const selectedOption = ref<string | undefined>()
+
 onMounted(() => {
   getCategories()
+  if (selectedCategory?.value?.id) {
+    selectedOption.value = selectedCategory.value?.id
+    getProductsByCategory(selectedCategory.value?.id)
+  }
 })
 
 const updateSelectedOption = (model: string) => {
   if (model) {
-    console.log(model)
     getProductsByCategory(model)
   }
 }
@@ -43,7 +46,13 @@ const updateSelectedOption = (model: string) => {
       @update:modelValue="($event) => updateSelectedOption($event)"
     />
     <div v-if="products.length > 0">
-      <DataTable :value="products" showGridlines tableStyle="min-width: 60rem">
+      <DataTable
+        :value="products"
+        showGridlines
+        sortMode="multiple"
+        removableSort
+        tableStyle="min-width: 60rem"
+      >
         <Column field="name" header="Name" sortable></Column>
         <Column field="price" header="Price" sortable></Column>
         <Column field="stock" header="Stock" sortable></Column>
