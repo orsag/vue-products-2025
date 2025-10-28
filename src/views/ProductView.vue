@@ -112,12 +112,6 @@ const onFormSubmit = () => {
   justify-content: space-between;
   align-items: center;
 }
-.switch {
-  position: relative;
-  top: 8px;
-  left: 12px;
-  margin-right: 2em;
-}
 .attribute {
   display: flex;
   flex-direction: row;
@@ -139,6 +133,5 @@ const onFormSubmit = () => {
   width: 100%;
   margin-bottom: 0.5rem;
   font-weight: 600;
-  color: var(--text-color);
 }
 </style>

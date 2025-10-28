@@ -71,10 +71,10 @@ const _deleteCategory = () => {
       ></Button>
     </template>
     <Dialog v-model:visible="visible" modal header="Delete" :style="{ width: '25rem' }">
-      <span class="text-surface-500 dark:text-surface-400 block mb-8"
+      <span class="mb-8"
         >Are you sure you want to delete this category?
       </span>
-      <div class="flex justify-end gap-2">
+      <div class="gap-2">
         <Button type="button" label="Cancel" severity="secondary" @click="visible = false"></Button>
         <Button type="button" label="Save" @click="_deleteCategory"></Button>
       </div>
