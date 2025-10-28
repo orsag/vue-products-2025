@@ -24,6 +24,7 @@ const EMPTY_CAT = {
 export function useCategoryView() {
   const router = useRouter()
   const mainStore = useMainStore()
+  const { updateFilters } = mainStore
   const { operation, categories, selectedCategory } = storeToRefs(mainStore)
   const localCategory = ref<Category>(selectedCategory.value ?? { ...EMPTY_CAT })
 
@@ -52,6 +53,8 @@ export function useCategoryView() {
         }
       })
       categories.value = updatedCategories
+      selectedCategory.value = data
+      updateFilters()
       router.push({ name: 'main' })
     } catch (err) {
       const error = err as BaseError
@@ -75,6 +78,8 @@ export function useCategoryView() {
       }
       const newCategory = await response.json()
       categories.value = [categories.value, { ...newCategory }]
+      selectedCategory.value = { ...newCategory }
+      updateFilters()
       router.push({ name: 'main' })
     } catch (err) {
       const error = err as BaseError

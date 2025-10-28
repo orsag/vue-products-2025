@@ -51,12 +51,11 @@ export function useHomeView() {
       if (!response.ok) {
         throw new BaseError('HTTP error!', { cause: String(response.status) })
       }
-      categories.value = categories.value.filter((c: Category) => c.id === categoryId)
-      return categoryId
+      categories.value = categories.value.filter((c: Category) => c.id !== categoryId)
+      products.value = []
     } catch (err) {
       const error = err as BaseError
       console.log(error.message)
-      return false
     }
   }
 

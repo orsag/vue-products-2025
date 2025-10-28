@@ -1,37 +1,22 @@
 <script setup lang="ts">
-import DataTable, { type DataTableProps } from 'primevue/datatable'
+import DataTable from 'primevue/datatable'
 import { Column, ToggleSwitch, InputText } from 'primevue'
 import { ref, watch } from 'vue'
-import type { AttributeDefinition } from '@/types'
 import { storeToRefs } from 'pinia'
 import { useMainStore } from '@/stores/main'
 
 const mainStore = useMainStore()
-const { selectedCategory, products } = storeToRefs(mainStore)
+const { selectedCategory, products, filters } = storeToRefs(mainStore)
+const { updateFilters } = mainStore
 
-const filters = ref<DataTableProps['filters']>({})
 const isFiltering = ref(false)
 
 watch(
   selectedCategory,
   () => {
-    if (selectedCategory.value) {
-      const dynamicFilters = selectedCategory.value?.schema?.reduce(
-        (acc: Record<string, any>, item: AttributeDefinition) => {
-          acc[`attributes.${item.key}`] = { value: null, matchMode: 'contains' }
-          return acc
-        },
-        {},
-      )
-      const staticFilters = {
-        name: { value: null, matchMode: 'contains' },
-        stock: { value: null, matchMode: 'contains' },
-        price: { value: null, matchMode: 'contains' },
-      }
-      filters.value = { ...staticFilters, ...dynamicFilters }
-    }
+    updateFilters()
   },
-  { immediate: true },
+  { immediate: true, deep: true },
 )
 </script>
 

@@ -94,8 +94,15 @@ const handleSubmit = () => {
 
       <div v-if="formData.type === 'select'">
         <label>Options: {{ formData.options }}</label>
-        <InputText name="key" type="text" placeholder="New Option" v-model="newOption" fluid />
-        <Button severity="secondary" label="Add option" :onClick="() => addedOption()" />
+        <div class="field">
+          <InputText name="key" type="text" placeholder="New Option" v-model="newOption" fluid />
+        </div>
+        <Button
+          severity="secondary"
+          label="Add option"
+          :onClick="() => addedOption()"
+          :style="{ marginBottom: '1em' }"
+        ></Button>
       </div>
       <div>
         <Button type="submit" severity="secondary" label="Save new attribute" />

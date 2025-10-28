@@ -18,7 +18,8 @@ export function useProductView() {
   const localProduct = ref<Product | null>(null)
 
   const mainStore = useMainStore()
-  const { selectedCategory, products } = storeToRefs(mainStore)
+  const { updateFilters } = mainStore
+  const { selectedCategory } = storeToRefs(mainStore)
 
   const createProduct = async (formData: FormData) => {
     const createdAt = new Date().toDateString()
@@ -41,8 +42,7 @@ export function useProductView() {
       if (!response.ok) {
         throw new BaseError('HTTP error!', { cause: String(response.status) })
       }
-      const newProduct = await response.json()
-      products.value = [products.value, { ...newProduct, attributes: { ...newProduct.attributes } }]
+      updateFilters()
       router.push({ name: 'main' })
     } catch (err) {
       const error = err as BaseError
