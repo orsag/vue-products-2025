@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { ref, defineEmits } from 'vue'
+import { ref, defineEmits, computed } from 'vue'
 import { InputText, Select, ToggleSwitch, Button } from 'primevue'
 import Inplace from 'primevue/inplace'
 import type { AttributeDefinition } from '@/types'
+import { useDarkMode } from '@/composables/useDarkMode'
 
 type CustomType = 'text' | 'number' | 'select' | 'date' | 'boolean'
-const isDarkMode = ref(window.matchMedia('(prefers-color-scheme: dark)').matches)
 const emit = defineEmits(['createdAttribute'])
+const { isDarkMode } = useDarkMode()
+const backgroundColor = computed(() => (isDarkMode.value ? '#3d3d3d' : '#e8e8e8'))
 
 const EMPTY = {
   key: '',
@@ -41,7 +43,7 @@ const handleSubmit = (event: SubmitEvent, closeCallback: () => void) => {
 </script>
 
 <template>
-  <Inplace class="addForm" :style="{ background: isDarkMode ? '#3d3d3d' : '#e8e8e8' }">
+  <Inplace class="addForm" :style="{ background: backgroundColor }">
     <template #display> Click to create attribute </template>
 
     <template #content="{ closeCallback }">
