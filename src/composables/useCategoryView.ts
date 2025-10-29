@@ -77,8 +77,8 @@ export function useCategoryView() {
         throw new BaseError('HTTP error!', { cause: String(response.status) })
       }
       const newCategory = await response.json()
-      categories.value = [categories.value, { ...newCategory }]
-      selectedCategory.value = { ...newCategory }
+      categories.value = [...categories.value, { ...newCategory }]
+      selectedCategory.value = { ...newCategory, schema: [...newCategory.schema] }
       updateFilters()
       router.push({ name: 'main' })
     } catch (err) {

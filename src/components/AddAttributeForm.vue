@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { ref, defineEmits } from 'vue'
 import { InputText, Select, ToggleSwitch, Button } from 'primevue'
+import Inplace from 'primevue/inplace'
 import type { AttributeDefinition } from '@/types'
 
 type CustomType = 'text' | 'number' | 'select' | 'date' | 'boolean'
 const isDarkMode = ref(window.matchMedia('(prefers-color-scheme: dark)').matches)
-const isOpened = ref(false)
-
 const emit = defineEmits(['createdAttribute'])
 
 const EMPTY = {
@@ -34,81 +33,86 @@ const addedOption = () => {
   newOption.value = ''
 }
 
-const handleSubmit = () => {
+const handleSubmit = (event: SubmitEvent, closeCallback: () => void) => {
   emit('createdAttribute', { ...formData.value })
   formData.value = { ...EMPTY, options: [] }
-  isOpened.value = false
+  closeCallback()
 }
 </script>
 
 <template>
-  <div class="addForm" :style="{ background: isDarkMode ? '#3d3d3d' : '#e8e8e8' }">
-    <Button
-      v-show="isOpened === false"
-      severity="secondary"
-      label="Add attribute"
-      :onClick="() => (isOpened = !isOpened)"
-    />
-    <form @submit.prevent="handleSubmit" v-show="isOpened">
-      <div class="field">
-        <Select
-          v-model="formData.type"
-          name="label"
-          :options="options"
-          optionLabel="label"
-          optionValue="value"
-          required
-          placeholder="Select type"
-        />
-      </div>
+  <Inplace class="addForm" :style="{ background: isDarkMode ? '#3d3d3d' : '#e8e8e8' }">
+    <template #display> Click to create attribute </template>
 
-      <div class="field">
-        <InputText name="key" type="text" placeholder="Key" v-model="formData.key" required fluid />
-      </div>
-
-      <div class="field">
-        <InputText
-          name="label"
-          type="text"
-          placeholder="Label"
-          v-model="formData.label"
-          required
-          fluid
-        />
-      </div>
-
-      <div class="field">
-        <label>Required:</label>
-        <ToggleSwitch name="required" label="Required" v-model="formData.required" fluid />
-      </div>
-
-      <div class="field">
-        <InputText
-          name="defaultValue"
-          label="Default"
-          placeholder="Default"
-          v-model="formData.defaultValue"
-          fluid
-        />
-      </div>
-
-      <div v-if="formData.type === 'select'">
-        <label>Options: {{ formData.options }}</label>
+    <template #content="{ closeCallback }">
+      <form @submit.prevent="handleSubmit($event, closeCallback)">
         <div class="field">
-          <InputText name="key" type="text" placeholder="New Option" v-model="newOption" fluid />
+          <Select
+            v-model="formData.type"
+            name="label"
+            :options="options"
+            optionLabel="label"
+            optionValue="value"
+            required
+            placeholder="Select type"
+          />
         </div>
-        <Button
-          severity="secondary"
-          label="Add option"
-          :onClick="() => addedOption()"
-          :style="{ marginBottom: '1em' }"
-        ></Button>
-      </div>
-      <div>
-        <Button type="submit" severity="secondary" label="Save new attribute" />
-      </div>
-    </form>
-  </div>
+
+        <div class="field">
+          <InputText
+            name="key"
+            type="text"
+            placeholder="Key"
+            v-model="formData.key"
+            required
+            fluid
+          />
+        </div>
+
+        <div class="field">
+          <InputText
+            name="label"
+            type="text"
+            placeholder="Label"
+            v-model="formData.label"
+            required
+            fluid
+          />
+        </div>
+
+        <div class="field">
+          <label>Required:</label>
+          <ToggleSwitch name="required" label="Required" v-model="formData.required" fluid />
+        </div>
+
+        <div class="field">
+          <InputText
+            name="defaultValue"
+            label="Default"
+            placeholder="Default"
+            v-model="formData.defaultValue"
+            fluid
+          />
+        </div>
+
+        <div v-if="formData.type === 'select'">
+          <label>Options: {{ formData.options }}</label>
+          <div class="field">
+            <InputText name="key" type="text" placeholder="New Option" v-model="newOption" fluid />
+          </div>
+          <Button
+            severity="secondary"
+            label="Add option"
+            :onClick="() => addedOption()"
+            :style="{ marginBottom: '1em' }"
+          ></Button>
+        </div>
+        <div>
+          <Button type="submit" severity="secondary" label="Save new attribute" />
+        </div>
+      </form>
+    </template>
+  </Inplace>
 </template>
 
 <style lang="css" scoped>
