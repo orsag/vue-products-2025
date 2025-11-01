@@ -4,6 +4,7 @@ import type { AttributeDefinition, Category } from '@/types'
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { ROUTENAMES } from '@/router/routes.ts'
 
 export interface FormData {
   id: string
@@ -45,17 +46,17 @@ export function useCategoryView() {
         throw new BaseError('HTTP error!', { cause: String(response.status) })
       }
       const data = await response.json()
-      const updatedCategories = categories.value.map((cat: Category) => {
-        if (cat.id === localCategory.value.id) {
+      const updatedCategories = categories.value.map((oldCategory: Category) => {
+        if (oldCategory.id === localCategory.value.id) {
           return data
         } else {
-          return cat
+          return oldCategory
         }
       })
       categories.value = updatedCategories
-      selectedCategory.value = data
+      selectedCategory.value = { ...data, schema: [...data.schema] }
       updateFilters()
-      router.push({ name: 'main' })
+      router.push({ name: ROUTENAMES.HOME })
     } catch (err) {
       const error = err as BaseError
       console.log(error.message)
@@ -80,7 +81,7 @@ export function useCategoryView() {
       categories.value = [...categories.value, { ...newCategory }]
       selectedCategory.value = { ...newCategory, schema: [...newCategory.schema] }
       updateFilters()
-      router.push({ name: 'main' })
+      router.push({ name: ROUTENAMES.HOME })
     } catch (err) {
       const error = err as BaseError
       console.log(error.message)
@@ -101,7 +102,7 @@ export function useCategoryView() {
 
   const cancelEditing = () => {
     localCategory.value = { ...EMPTY_CAT, schema: [] }
-    router.push({ name: 'main' })
+    router.push({ name: ROUTENAMES.HOME })
   }
 
   return {

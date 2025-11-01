@@ -3,6 +3,7 @@ import { useMainStore } from '@/stores/main'
 import type { Category, Product } from '@/types'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
+import { ROUTENAMES } from '@/router/routes.ts'
 
 export function useHomeView() {
   const mainStore = useMainStore()
@@ -81,16 +82,16 @@ export function useHomeView() {
 
   const handleEditCategory = () => {
     operation.value = 'update'
-    router.push({ name: 'category' })
+    router.push({ name: ROUTENAMES.CATEGORY })
   }
 
   const handleCreateCategory = () => {
     operation.value = 'create'
-    router.push({ name: 'category' })
+    router.push({ name: ROUTENAMES.CATEGORY })
   }
 
   const handleAddProduct = () => {
-    router.push({ name: 'product' })
+    router.push({ name: ROUTENAMES.PRODUCT })
   }
 
   return {

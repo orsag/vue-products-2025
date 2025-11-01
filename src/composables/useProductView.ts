@@ -5,6 +5,7 @@ import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { v4 as uuidv4 } from 'uuid'
+import { ROUTENAMES } from '@/router/routes.ts'
 
 export interface FormData {
   name: string
@@ -43,7 +44,7 @@ export function useProductView() {
         throw new BaseError('HTTP error!', { cause: String(response.status) })
       }
       updateFilters()
-      router.push({ name: 'main' })
+      router.push({ name: ROUTENAMES.HOME })
     } catch (err) {
       const error = err as BaseError
       console.log(error.message)
@@ -52,7 +53,7 @@ export function useProductView() {
 
   const cancelCreation = () => {
     localProduct.value = null
-    router.push({ name: 'main' })
+    router.push({ name: ROUTENAMES.HOME })
   }
 
   const TypeMap = new Map<string, number | boolean | string>([
