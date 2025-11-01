@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import DataTable from 'primevue/datatable'
 import { Column, ToggleSwitch, InputText, Button } from 'primevue'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useMainStore } from '@/stores/main'
 import type { Product } from '@/types.ts'
@@ -13,19 +13,11 @@ defineProps<{
 
 const mainStore = useMainStore()
 const { selectedCategory, products, filters } = storeToRefs(mainStore)
-const { updateFilters } = mainStore
 
 const isFiltering = ref(false)
 const isActionsVisible = ref(true)
 const isSmallSize = ref(false)
 
-watch(
-  selectedCategory,
-  () => {
-    updateFilters()
-  },
-  { immediate: true, deep: true },
-)
 </script>
 
 <template>

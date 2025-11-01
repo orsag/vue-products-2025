@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { defineStore } from 'pinia'
 import type { AttributeDefinition, Category, Product } from '@/types'
 import type { DataTableProps } from 'primevue'
@@ -30,6 +30,10 @@ export const useMainStore = defineStore('main', () => {
       filters.value = { ...staticFilters, ...dynamicFilters }
     }
   }
+
+  watch(selectedCategory, () => {
+    updateFilters()
+  }, { deep: true, immediate: true })
 
   return {
     operation,
