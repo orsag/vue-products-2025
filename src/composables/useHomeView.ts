@@ -59,6 +59,26 @@ export function useHomeView() {
     }
   }
 
+  const deleteProduct = async (data: Product) => {
+    if (data?.id && data.id !== '') {
+      const url = `/api/products/${data.id}`
+      try {
+        const response = await fetch(url, { method: 'DELETE' })
+        if (!response.ok) {
+          throw new BaseError('HTTP error!', { cause: String(response.status) })
+        }
+        products.value = products.value.filter((p: Product) => p.id !== data.id)
+      } catch (err) {
+        const error = err as BaseError
+        console.log(error.message)
+      }
+    }
+  }
+
+  const editProduct = async (data: Product) => {
+    console.log('to be developed')
+  }
+
   const handleEditCategory = () => {
     operation.value = 'update'
     router.push({ name: 'category' })
@@ -83,5 +103,7 @@ export function useHomeView() {
     handleCreateCategory,
     handleEditCategory,
     handleAddProduct,
+    deleteProduct,
+    editProduct,
   }
 }

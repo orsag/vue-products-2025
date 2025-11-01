@@ -14,6 +14,8 @@ const {
   handleEditCategory,
   handleCreateCategory,
   handleAddProduct,
+  deleteProduct,
+  editProduct,
 } = useHomeView()
 
 const selectedOption = ref<string | undefined>()
@@ -45,7 +47,7 @@ const updateSelectedOption = (model: string) => {
       @update:modelValue="($event) => updateSelectedOption($event)"
     />
     <div v-if="products.length > 0">
-      <MyDataTable />
+      <MyDataTable :deleteProduct="deleteProduct" :editProduct="editProduct" />
     </div>
     <div v-else-if="selectedOption === null">
       <h3>No category selected</h3>

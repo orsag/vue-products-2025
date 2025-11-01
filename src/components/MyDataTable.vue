@@ -1,9 +1,15 @@
 <script setup lang="ts">
 import DataTable from 'primevue/datatable'
-import { Column, ToggleSwitch, InputText } from 'primevue'
+import { Column, ToggleSwitch, InputText, Button } from 'primevue'
 import { ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useMainStore } from '@/stores/main'
+import type { Product } from '@/types.ts'
+
+defineProps<{
+  deleteProduct: (data: Product) => void
+  editProduct: (data: Product) => void
+}>()
 
 const mainStore = useMainStore()
 const { selectedCategory, products, filters } = storeToRefs(mainStore)
@@ -98,6 +104,28 @@ watch(
         </template>
       </Column>
     </template>
+    <Column style="width: auto">
+      <template #body="slotProps">
+        <div class="buttons">
+          <Button
+            type="button"
+            size="small"
+            icon="pi pi-pencil"
+            rounded
+            severity="success"
+            @click="editProduct(slotProps.data)"
+          />
+          <Button
+            type="button"
+            size="small"
+            icon="pi pi-trash"
+            rounded
+            severity="danger"
+            @click="deleteProduct(slotProps.data)"
+          />
+        </div>
+      </template>
+    </Column>
   </DataTable>
   <div class="field">
     <label>Show filters:</label>
@@ -113,5 +141,10 @@ watch(
 }
 .field label {
   margin-right: 1em;
+}
+.buttons {
+  display: flex;
+  align-items: center;
+  gap: 1em;
 }
 </style>
