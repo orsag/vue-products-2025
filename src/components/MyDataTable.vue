@@ -16,6 +16,8 @@ const { selectedCategory, products, filters } = storeToRefs(mainStore)
 const { updateFilters } = mainStore
 
 const isFiltering = ref(false)
+const isActionsVisible = ref(true)
+const isSmallSize = ref(false)
 
 watch(
   selectedCategory,
@@ -35,10 +37,11 @@ watch(
     removableSort
     tableStyle="min-width: 60rem"
     :filterDisplay="isFiltering ? 'row' : undefined"
+    :size="isSmallSize ? 'small' : 'default'"
   >
     <Column field="name" header="Name" sortable>
       <template #body="{ data }">
-        {{ data.name }}
+        <span :style="{ fontWeight: 'bold' }">{{ data.name }}</span>
       </template>
       <template #filter="{ filterModel, filterCallback }">
         <InputText
@@ -104,7 +107,7 @@ watch(
         </template>
       </Column>
     </template>
-    <Column style="width: auto">
+    <Column style="width: auto" :hidden="!isActionsVisible">
       <template #body="slotProps">
         <div class="buttons">
           <Button
@@ -126,21 +129,38 @@ watch(
         </div>
       </template>
     </Column>
+    <template #footer>
+      <div class="footer">
+        <div class="field">
+          <label>Filters:</label>
+          <ToggleSwitch name="filtering" v-model="isFiltering" />
+          <label>Actions:</label>
+          <ToggleSwitch name="actions" v-model="isActionsVisible" />
+          <label>Compact:</label>
+          <ToggleSwitch name="compact" v-model="isSmallSize" />
+        </div>
+        <span>Total {{ products ? products.length : 0 }} products.</span>
+      </div>
+       </template>
   </DataTable>
-  <div class="field">
-    <label>Show filters:</label>
-    <ToggleSwitch name="filtering" v-model="isFiltering" />
-  </div>
+
 </template>
 
 <style lang="css" scoped>
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 .field {
   display: flex;
   align-items: center;
-  margin-top: 1em;
 }
 .field label {
   margin-right: 1em;
+}
+.field label:not(:first-child) {
+  margin-left: 1em;
 }
 .buttons {
   display: flex;
