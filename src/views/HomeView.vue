@@ -3,6 +3,8 @@ import Menu from '../components/Menu.vue'
 import { useHomeView } from '@/composables/useHomeView'
 import { onMounted, ref } from 'vue'
 import MyDataTable from '@/components/MyDataTable.vue'
+import Toast from 'primevue/toast'
+import { useToast } from 'primevue/usetoast'
 
 const {
   categories,
@@ -19,6 +21,7 @@ const {
 } = useHomeView()
 
 const selectedOption = ref<string | undefined>()
+const toast = useToast()
 
 onMounted(() => {
   getCategories()
@@ -33,6 +36,15 @@ const updateSelectedOption = (model: string) => {
     getProductsByCategory(model)
   }
 }
+
+const showToast = () => {
+  toast.add({
+    severity: 'info',
+    summary: 'Info',
+    detail: 'To be developed',
+    life: 3000,
+  })
+}
 </script>
 
 <template>
@@ -46,8 +58,9 @@ const updateSelectedOption = (model: string) => {
       :handleAddProduct="handleAddProduct"
       @update:modelValue="($event) => updateSelectedOption($event)"
     />
+    <Toast />
     <div v-if="products.length > 0">
-      <MyDataTable :deleteProduct="deleteProduct" :editProduct="editProduct" />
+      <MyDataTable :deleteProduct="deleteProduct" :editProduct="showToast" />
     </div>
     <div v-else-if="selectedOption === null">
       <h3>No category selected</h3>

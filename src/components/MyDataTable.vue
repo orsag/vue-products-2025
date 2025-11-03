@@ -17,7 +17,6 @@ const { selectedCategory, products, filters } = storeToRefs(mainStore)
 const isFiltering = ref(false)
 const isActionsVisible = ref(true)
 const isSmallSize = ref(false)
-
 </script>
 
 <template>
@@ -133,9 +132,8 @@ const isSmallSize = ref(false)
         </div>
         <span>Total {{ products ? products.length : 0 }} products.</span>
       </div>
-       </template>
+    </template>
   </DataTable>
-
 </template>
 
 <style lang="css" scoped>
