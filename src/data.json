@@ -18,12 +18,7 @@
           "label": "Rozlišení",
           "type": "select",
           "required": true,
-          "options": [
-            "HD",
-            "Full HD",
-            "4K",
-            "8K"
-          ]
+          "options": ["HD", "Full HD", "4K", "8K"]
         },
         {
           "key": "smartTV",
@@ -76,13 +71,7 @@
           "label": "Žánr",
           "type": "select",
           "required": true,
-          "options": [
-            "Sci-fi",
-            "Fantasy",
-            "Detektivka",
-            "Romantika",
-            "Historický"
-          ]
+          "options": ["Sci-fi", "Fantasy", "Detektivka", "Romantika", "Historický"]
         }
       ]
     }
@@ -175,5 +164,6 @@
         "yearManufactured": 2025
       }
     }
-  ]
+  ],
+  "invoices": []
 }

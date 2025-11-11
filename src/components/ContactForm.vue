@@ -11,11 +11,10 @@ const formData = defineModel<ContactForm>('formData', { default: () => ({ ...EMP
 </script>
 
 <template>
-  <Card>
-    <template #title>Payment of this invoice</template>
+  <Card :class="$style.customCard">
+    <template #title>{{ label }}</template>
     <template #content>
       <div class="verticalForm">
-        <h2>{{ label }}</h2>
         <div class="field">
           <label for="name">Company</label>
           <InputText size="small" id="company" v-model="formData.company" />
@@ -87,18 +86,17 @@ const formData = defineModel<ContactForm>('formData', { default: () => ({ ...EMP
 
 <style lang="css" scoped>
 .verticalForm {
-  width: 500px;
+  width: 440px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding-right: 2em;
 }
 .field {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.3em;
 }
 
 .h3 {
@@ -113,5 +111,16 @@ const formData = defineModel<ContactForm>('formData', { default: () => ({ ...EMP
 .field label {
   margin-right: 1rem;
   font-weight: 600;
+}
+</style>
+
+<style module>
+.customCard {
+  border: 1px solid #ddd;
+  box-shadow: 0 0 7px -1px #d6d6d6;
+  top: -20px;
+  border-radius: 5px 5px 5px 5px;
+  margin-bottom: 2em;
+  font-style: normal;
 }
 </style>
