@@ -18,7 +18,12 @@
           "label": "Rozlišení",
           "type": "select",
           "required": true,
-          "options": ["HD", "Full HD", "4K", "8K"]
+          "options": [
+            "HD",
+            "Full HD",
+            "4K",
+            "8K"
+          ]
         },
         {
           "key": "smartTV",
@@ -71,7 +76,13 @@
           "label": "Žánr",
           "type": "select",
           "required": true,
-          "options": ["Sci-fi", "Fantasy", "Detektivka", "Romantika", "Historický"]
+          "options": [
+            "Sci-fi",
+            "Fantasy",
+            "Detektivka",
+            "Romantika",
+            "Historický"
+          ]
         }
       ]
     }
@@ -165,5 +176,77 @@
       }
     }
   ],
-  "invoices": []
+  "invoices": [
+    {
+      "id": "78204a6d-2027-4efd-ba7b-6ebb0d69149c",
+      "supplier": {
+        "company": "Ing. Martin Orság",
+        "person": "Ing. Martin Orság",
+        "street": "športová 24",
+        "city": "Zvolenská Slatina",
+        "ZIP": "962 01",
+        "country": "Slovakia",
+        "companyID": "48211371",
+        "taxNumber": "1081882791",
+        "vatID": "SK1081882791",
+        "vatPayer": false,
+        "details": "Osoba zapísaná v Živnostenskom registri pod číslom 670-24700, vydal Okresný úrad Zvolen dňa 15.6.2015.",
+        "phone": "0949131158",
+        "email": "tefanus@gmail.com",
+        "web": "",
+        "iban": "SK47 0900 0000 0052 3079 0311",
+        "bank": "Slovenska sporitelna a.s."
+      },
+      "customer": {
+        "company": "",
+        "person": "",
+        "street": "",
+        "city": "",
+        "ZIP": "",
+        "country": "",
+        "companyID": "",
+        "taxNumber": "",
+        "vatID": "",
+        "vatPayer": false,
+        "details": "",
+        "phone": "",
+        "email": "",
+        "web": "",
+        "iban": "",
+        "bank": ""
+      },
+      "basic": {
+        "invoiceNumber": "",
+        "invoiceType": "invoice",
+        "reference": "",
+        "service": "",
+        "dateOfIssue": "",
+        "dateOfDelivery": "",
+        "dueDate": "",
+        "orderNumber": ""
+      },
+      "payment": {
+        "currency": "",
+        "method": "",
+        "roundingTotal": "",
+        "alreadyPaid": "",
+        "discount": ""
+      },
+      "details": {
+        "language": "",
+        "noteAboveItems": "",
+        "noteBelowItems": "",
+        "issuedBy": "",
+        "internalNote": ""
+      },
+      "items": [
+        {
+          "description": "",
+          "unit": "",
+          "quantity": "",
+          "pricePerUnit": ""
+        }
+      ]
+    }
+  ]
 }

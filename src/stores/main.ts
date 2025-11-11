@@ -9,6 +9,7 @@ export const useMainStore = defineStore('main', () => {
   const categories = ref<Category[]>([])
   const selectedCategory = ref<Category | null>(null)
   const filters = ref<DataTableProps['filters']>({})
+  const invoices = ref<any[]>([])
 
   const setSelectedCategory = (newVal: Category) => (selectedCategory.value = newVal)
 
@@ -45,6 +46,7 @@ export const useMainStore = defineStore('main', () => {
     selectedCategory,
     products,
     filters,
+    invoices,
     setSelectedCategory,
     updateFilters,
   }

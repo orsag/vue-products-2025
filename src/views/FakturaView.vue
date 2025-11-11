@@ -16,6 +16,7 @@ const {
   generateDetails,
   generateEmptyItem,
   createFaktura,
+  editFaktura,
   getFirstInvoice,
 } = useFakturaView()
 const firstItem = generateEmptyItem()
@@ -24,20 +25,39 @@ const showHTML = ref(false)
 const showForm = ref(true)
 
 const formData = reactive({
+  id: 0,
   supplier: generateContact(),
   customer: generateContact(),
   basic: generateBasic(),
   payment: generatePayment(),
   details: generateDetails(),
-  notes: '',
-  language: 'slovak',
   items: [firstItem],
 })
 
 const handleSubmitForm = async () => {
-  // const success = await createFaktura(formData)
-  if (true) {
-    showHTML.value = true
+  if (formData.id == 0) {
+    const success = await createFaktura(formData)
+    if (success) {
+      showHTML.value = true
+    }
+  } else {
+    const success = await editFaktura(formData)
+    if (success) {
+      showHTML.value = true
+    }
+  }
+}
+
+const firstInvoice = async () => {
+  const data = await getFirstInvoice()
+  if (data) {
+    formData.id = data.id
+    formData.supplier = data.supplier
+    formData.customer = data.customer
+    formData.basic = data.basic
+    formData.payment = data.payment
+    formData.details = data.details
+    formData.items = data.items
   }
 }
 
@@ -49,7 +69,7 @@ const printPDF = () => {}
     <h1>Nova faktura</h1>
     <div class="submit">
       <ToggleButton v-model="showForm" onLabel="Show" offLabel="Hide" />
-      <Button size="small" label="Load first" @click="getFirstInvoice"></Button>
+      <Button size="small" label="Load first" @click="firstInvoice"></Button>
     </div>
 
     <form @submit.prevent="handleSubmitForm" class="form-container" v-show="showForm">
