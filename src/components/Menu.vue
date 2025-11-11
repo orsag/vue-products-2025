@@ -4,9 +4,12 @@ import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
 import type { Category } from '@/types'
 import { ref } from 'vue'
+import { ROUTENAMES } from '@/router/routes'
+import { useRouter } from 'vue-router'
 
 const model = defineModel<string>({ default: null })
 const visible = ref(false)
+const router = useRouter()
 
 const props = defineProps<{
   categories: Category[]
@@ -23,6 +26,10 @@ const openDialog = () => {
 const _deleteCategory = () => {
   props.deleteCategory(model.value ?? '')
   visible.value = false
+}
+
+const goFaktura = () => {
+  router.push({ name: ROUTENAMES.FAKTURA })
 }
 </script>
 
@@ -45,6 +52,13 @@ const _deleteCategory = () => {
       aria-label="Create"
       size="large"
       @click="handleCreateCategory"
+    ></Button>
+    <Button
+      icon="pi pi-plus"
+      label="Faktura"
+      aria-label="Faktura"
+      size="large"
+      @click="goFaktura"
     ></Button>
     <template v-if="model">
       <Button
@@ -71,9 +85,7 @@ const _deleteCategory = () => {
       ></Button>
     </template>
     <Dialog v-model:visible="visible" modal header="Delete" :style="{ width: '25rem' }">
-      <span class="mb-8"
-        >Are you sure you want to delete this category?
-      </span>
+      <span class="mb-8">Are you sure you want to delete this category? </span>
       <div class="gap-2">
         <Button type="button" label="Cancel" severity="secondary" @click="visible = false"></Button>
         <Button type="button" label="Save" @click="_deleteCategory"></Button>

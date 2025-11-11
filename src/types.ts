@@ -43,4 +43,70 @@ interface FilterConfig {
 
 declare type Nullable<T = void> = T | null | undefined
 
-export type { AttributeDefinition, Category, Product, ColumnConfig, FilterConfig, Nullable }
+// FAKTURY
+interface ContactForm {
+  company: string
+  person: string
+  street: string
+  city: string
+  ZIP: string
+  country: string
+  companyID: string // ico
+  taxNumber: string // dic
+  vatID: string // ic dph
+  vatPayer: boolean
+  details: string
+  phone: string
+  email: string
+  web: string
+  iban: string
+  bank: string
+}
+
+interface BasicForm {
+  invoiceNumber: string
+  invoiceType: string
+  reference: string
+  service: string
+  dateOfIssue: string
+  dateOfDelivery: string
+  dueDate: string
+  orderNumber: string
+}
+
+interface PaymentForm {
+  currency: string
+  method: string
+  roundingTotal: string
+  alreadyPaid: string
+  discount: string
+}
+
+interface PaymentDetails {
+  language: string
+  noteAboveItems: string
+  noteBelowItems: string
+  issuedBy: string
+  internalNote: string
+}
+
+interface PaymentItem {
+  description: string
+  unit: string
+  quantity: string
+  pricePerUnit: string
+}
+
+export type {
+  AttributeDefinition,
+  Category,
+  Product,
+  ColumnConfig,
+  FilterConfig,
+  Nullable,
+  ContactForm,
+  BasicForm,
+  PaymentDetails,
+  PaymentForm,
+  PaymentItem,
+}

@@ -21,7 +21,7 @@ export const useMainStore = defineStore('main', () => {
         },
         {},
       )
-      delete dynamicFilters['attributes.test']
+      // delete dynamicFilters['attributes.test']
       const staticFilters = {
         name: { value: null, matchMode: 'contains' },
         stock: { value: null, matchMode: 'contains' },
@@ -31,9 +31,13 @@ export const useMainStore = defineStore('main', () => {
     }
   }
 
-  watch(selectedCategory, () => {
-    updateFilters()
-  }, { deep: true, immediate: true })
+  watch(
+    selectedCategory,
+    () => {
+      updateFilters()
+    },
+    { deep: true, immediate: true },
+  )
 
   return {
     operation,
