@@ -35,16 +35,14 @@ const formData = reactive({
 })
 
 const handleSubmitForm = async () => {
+  let success = false
   if (formData.id == 0) {
-    const success = await createFaktura(formData)
-    if (success) {
-      showHTML.value = true
-    }
+    success = await createFaktura(formData)
   } else {
-    const success = await editFaktura(formData)
-    if (success) {
-      showHTML.value = true
-    }
+    success = await editFaktura(formData)
+  }
+  if (success) {
+    // let toast show Success
   }
 }
 
@@ -102,7 +100,7 @@ const printPDF = () => {}
 .twoCols {
   gap: 2em;
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: space-between;
 }
 .submit {
