@@ -1,17 +1,31 @@
 <script setup lang="ts">
 import { BASIC } from '@/router/routes'
 import type { BasicForm } from '@/types'
-import { Card, InputText, DatePicker } from 'primevue'
-import { watch } from 'vue'
+import { Button, Card, InputText, DatePicker } from 'primevue'
+import { ref } from 'vue'
 
+const isExpanded = ref(true)
+const toggleExpand = () => {
+  isExpanded.value = !isExpanded.value
+}
 const formData = defineModel<BasicForm>('formData', { default: { ...BASIC } })
 </script>
 
 <template>
   <Card :class="$style.customCard">
-    <template #title>Basics</template>
+    <template #title>
+      <div class="card-title">
+        <span>Basics</span>
+        <Button
+          size="small"
+          icon="pi pi-arrow-up"
+          :class="{ 'rotate-icon': !isExpanded }"
+          @click="toggleExpand"
+        />
+      </div>
+    </template>
     <template #content>
-      <div class="wrapper">
+      <div :class="['content-wrapper', { expanded: isExpanded }]">
         <div class="verticalForm">
           <div class="field">
             <label for="invoiceNumber">Invoice number</label>
@@ -69,12 +83,9 @@ const formData = defineModel<BasicForm>('formData', { default: { ...BASIC } })
   flex-direction: column;
   justify-content: flex-start;
 }
-.field {
+.content-wrapper {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 0.3em;
 }
 
 .h3 {
@@ -89,6 +100,12 @@ const formData = defineModel<BasicForm>('formData', { default: { ...BASIC } })
 .field label {
   margin-right: 1rem;
   font-weight: 600;
+}
+:deep(.p-button.rotate-icon .p-button-icon.pi) {
+  transform: rotate(180deg);
+}
+:deep(.p-button .p-button-icon.pi) {
+  transition: transform 0.3s ease;
 }
 </style>
 

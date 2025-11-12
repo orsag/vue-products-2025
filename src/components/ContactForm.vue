@@ -5,7 +5,6 @@ import { Card, InputText, ToggleSwitch, Button } from 'primevue'
 import { ref } from 'vue'
 
 const isExpanded = ref(true)
-
 const toggleExpand = () => {
   isExpanded.value = !isExpanded.value
 }
@@ -20,11 +19,12 @@ const formData = defineModel<ContactForm>('formData', { default: () => ({ ...EMP
 <template>
   <Card :class="$style.customCard" class="expandable-card">
     <template #title>
-      <div class="title">
+      <div class="card-title">
         <span>{{ label }}</span>
         <Button
           size="small"
-          :icon="isExpanded ? 'pi pi-arrow-up' : 'pi pi-arrow-down'"
+          icon="pi pi-arrow-up"
+          :class="{ 'rotate-icon': !isExpanded }"
           @click="toggleExpand"
         />
       </div>
@@ -109,18 +109,6 @@ const formData = defineModel<ContactForm>('formData', { default: () => ({ ...EMP
   flex-direction: column;
   justify-content: flex-start;
 }
-.title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.field {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 0.3em;
-}
 
 .h3 {
   align-self: center;
@@ -135,33 +123,12 @@ const formData = defineModel<ContactForm>('formData', { default: () => ({ ...EMP
   margin-right: 1rem;
   font-weight: 600;
 }
-.content-wrapper {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease-in-out;
-  padding-bottom: 0;
-  padding-top: 0;
-  transition:
-    max-height 0.4s ease-in-out,
-    padding-top 0.4s ease-in-out,
-    padding-bottom 0.4s ease-in-out,
-    opacity 0.4s ease-in-out;
-}
 
-.content-wrapper.expanded {
-  max-height: 1000px;
-  padding-bottom: 1.25rem;
-  padding-top: 1.25rem;
-  opacity: 1;
+:deep(.p-button.rotate-icon .p-button-icon.pi) {
+  transform: rotate(180deg);
 }
 :deep(.p-button .p-button-icon.pi) {
   transition: transform 0.3s ease;
-}
-:deep(.p-button .p-button-icon.pi.pi-arrow-up) {
-  transform: rotate(0deg);
-}
-:deep(.p-button .p-button-icon.pi.pi-arrow-down) {
-  transform: rotate(180deg);
 }
 </style>
 
